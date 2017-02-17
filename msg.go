@@ -41,7 +41,8 @@ const (
 
 // TypeToMsg is a map of constructors for Messages.
 var TypeToMsg = map[uint16]func() Msg{
-	TypeMsgPosLlh: func() Msg { return new(MsgPosLlh) },
+	TypeMsgGpsTime: func() Msg { return new(MsgGpsTime) },
+	TypeMsgPosLlh:  func() Msg { return new(MsgPosLlh) },
 }
 
 var (
