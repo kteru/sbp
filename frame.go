@@ -78,3 +78,18 @@ func (f *Frame) Bytes() ([]byte, error) {
 
 	return bs, nil
 }
+
+// Msg parse the Message payload and return it.
+func (f *Frame) Msg() (Msg, error) {
+	newFunc, ok := TypeToMsg[f.Type]
+	if !ok {
+		return nil, ErrUnsupportedMessage
+	}
+
+	msg := newFunc()
+	if err := msg.FromBytes(f.Payload); err != nil {
+		return nil, err
+	}
+
+	return msg, nil
+}
