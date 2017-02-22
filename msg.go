@@ -44,6 +44,7 @@ var TypeToMsg = map[uint16]func() Msg{
 	TypeMsgGpsTime: func() Msg { return new(MsgGpsTime) },
 	TypeMsgPosEcef: func() Msg { return new(MsgPosEcef) },
 	TypeMsgPosLlh:  func() Msg { return new(MsgPosLlh) },
+	TypeMsgVelEcef: func() Msg { return new(MsgVelEcef) },
 }
 
 var (
