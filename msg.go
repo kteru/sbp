@@ -46,6 +46,7 @@ var TypeToMsg = map[uint16]func() Msg{
 	TypeMsgPosEcef:      func() Msg { return new(MsgPosEcef) },
 	TypeMsgPosLlh:       func() Msg { return new(MsgPosLlh) },
 	TypeMsgBaselineEcef: func() Msg { return new(MsgBaselineEcef) },
+	TypeMsgBaselineNed:  func() Msg { return new(MsgBaselineNed) },
 	TypeMsgVelEcef:      func() Msg { return new(MsgVelEcef) },
 	TypeMsgVelNed:       func() Msg { return new(MsgVelNed) },
 }
