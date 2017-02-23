@@ -41,11 +41,18 @@ const (
 
 // TypeToMsg is a map of constructors for Messages.
 var TypeToMsg = map[uint16]func() Msg{
-	TypeMsgGpsTime: func() Msg { return new(MsgGpsTime) },
-	TypeMsgPosEcef: func() Msg { return new(MsgPosEcef) },
-	TypeMsgPosLlh:  func() Msg { return new(MsgPosLlh) },
-	TypeMsgVelEcef: func() Msg { return new(MsgVelEcef) },
-	TypeMsgVelNed:  func() Msg { return new(MsgVelNed) },
+	TypeMsgLog:             func() Msg { return new(MsgLog) },
+	TypeMsgGpsTime:         func() Msg { return new(MsgGpsTime) },
+	TypeMsgDops:            func() Msg { return new(MsgDops) },
+	TypeMsgPosEcef:         func() Msg { return new(MsgPosEcef) },
+	TypeMsgPosLlh:          func() Msg { return new(MsgPosLlh) },
+	TypeMsgBaselineEcef:    func() Msg { return new(MsgBaselineEcef) },
+	TypeMsgBaselineNed:     func() Msg { return new(MsgBaselineNed) },
+	TypeMsgVelEcef:         func() Msg { return new(MsgVelEcef) },
+	TypeMsgVelNed:          func() Msg { return new(MsgVelNed) },
+	TypeMsgBaselineHeading: func() Msg { return new(MsgBaselineHeading) },
+	TypeMsgBasePosLlh:      func() Msg { return new(MsgBasePosLlh) },
+	TypeMsgBasePosEcef:     func() Msg { return new(MsgBasePosEcef) },
 }
 
 var (
