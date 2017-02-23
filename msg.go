@@ -41,12 +41,13 @@ const (
 
 // TypeToMsg is a map of constructors for Messages.
 var TypeToMsg = map[uint16]func() Msg{
-	TypeMsgLog:     func() Msg { return new(MsgLog) },
-	TypeMsgGpsTime: func() Msg { return new(MsgGpsTime) },
-	TypeMsgPosEcef: func() Msg { return new(MsgPosEcef) },
-	TypeMsgPosLlh:  func() Msg { return new(MsgPosLlh) },
-	TypeMsgVelEcef: func() Msg { return new(MsgVelEcef) },
-	TypeMsgVelNed:  func() Msg { return new(MsgVelNed) },
+	TypeMsgLog:          func() Msg { return new(MsgLog) },
+	TypeMsgGpsTime:      func() Msg { return new(MsgGpsTime) },
+	TypeMsgPosEcef:      func() Msg { return new(MsgPosEcef) },
+	TypeMsgPosLlh:       func() Msg { return new(MsgPosLlh) },
+	TypeMsgBaselineEcef: func() Msg { return new(MsgBaselineEcef) },
+	TypeMsgVelEcef:      func() Msg { return new(MsgVelEcef) },
+	TypeMsgVelNed:       func() Msg { return new(MsgVelNed) },
 }
 
 var (
