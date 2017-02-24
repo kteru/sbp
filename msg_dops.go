@@ -10,10 +10,9 @@ type MsgDops struct {
 	// GPS Time of Week (unit:ms)
 	Tow uint32
 
-	//
-	// Dilution of Precision (unit:0.01)
-	//
-
+	////
+	//// Dilution of Precision (unit:0.01)
+	////
 	// Geometric
 	Gdop uint16
 	// Position
