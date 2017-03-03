@@ -7,13 +7,13 @@ import (
 
 // MsgGpsTime represents a contents of MSG_GPS_TIME.
 type MsgGpsTime struct {
-	// GPS week number
+	// GPS week number (unit:weeks)
 	Wn uint16
 
-	// GPS time of week rounded to the nearest millisecond
+	// GPS time of week rounded to the nearest millisecond (unit:ms)
 	Tow uint32
 
-	// Nanosecond residual of millisecond-rounded TOW
+	// Nanosecond residual of millisecond-rounded TOW (unit:ns)
 	Ns uint32
 
 	// Status flags
