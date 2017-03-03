@@ -19,11 +19,10 @@ const (
 	TypeMsgBaselineHeading uint16 = 0x0207
 
 	// Observation
-	TypeMsgObs           uint16 = 0x0049
-	TypeMsgBasePosLlh    uint16 = 0x0044
-	TypeMsgBasePosEcef   uint16 = 0x0048
-	TypeMsgEphemeris     uint16 = 0x0080
-	TypeMsgEphemerisDepC uint16 = 0x0047
+	TypeMsgObs         uint16 = 0x0043
+	TypeMsgBasePosLlh  uint16 = 0x0044
+	TypeMsgBasePosEcef uint16 = 0x0048
+	TypeMsgEphemeris   uint16 = 0x0047
 
 	// Settings
 	TypeMsgSettingsSave            uint16 = 0x00a1
