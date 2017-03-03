@@ -18,8 +18,8 @@ func NewFrameReader(rd io.Reader) *FrameReader {
 	return frd
 }
 
-// Next returns a next Frame.
-func (frd *FrameReader) Next() (*Frame, error) {
+// ReadFrame returns a single Frame.
+func (frd *FrameReader) ReadFrame() (*Frame, error) {
 	bs := make([]byte, 6, 6+2)
 
 	for {
