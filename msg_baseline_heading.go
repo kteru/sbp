@@ -34,8 +34,8 @@ func (m *MsgBaselineHeading) FromBytes(bs []byte) error {
 
 	flags := bs[9]
 	m.FixMode = flags & 0x7
-	m.RaimAvailability = (flags & 0x8) >> 3
-	m.RaimRepair = (flags & 0x10) >> 4
+	m.RaimAvailability = flags >> 3 & 0x1
+	m.RaimRepair = flags >> 4 & 0x1
 
 	return nil
 }
@@ -48,7 +48,7 @@ func (m *MsgBaselineHeading) Bytes() ([]byte, error) {
 
 	bs[8] = m.NumSats
 
-	flags := (m.FixMode & 0x7) | (m.RaimAvailability << 3 & 0x8) | (m.RaimRepair << 4 & 0x10)
+	flags := (m.FixMode & 0x7) | (m.RaimAvailability & 0x1 << 3) | (m.RaimRepair & 0x1 << 4)
 	bs[9] = flags
 
 	return bs, nil

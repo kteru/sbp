@@ -52,9 +52,9 @@ func (m *MsgPosLlh) FromBytes(bs []byte) error {
 
 	flags := bs[33]
 	m.FixMode = flags & 0x7
-	m.HeightMode = (flags & 0x8) >> 3
-	m.RaimAvailability = (flags & 0x10) >> 4
-	m.RaimRepair = (flags & 0x20) >> 5
+	m.HeightMode = flags >> 3 & 0x1
+	m.RaimAvailability = flags >> 4 & 0x1
+	m.RaimRepair = flags >> 5 & 0x1
 
 	return nil
 }
@@ -73,7 +73,7 @@ func (m *MsgPosLlh) Bytes() ([]byte, error) {
 
 	bs[32] = m.NumSats
 
-	flags := (m.FixMode & 0x7) | (m.HeightMode << 3 & 0x8) | (m.RaimAvailability << 4 & 0x10) | (m.RaimRepair << 5 & 0x20)
+	flags := (m.FixMode & 0x7) | (m.HeightMode & 0x1 << 3) | (m.RaimAvailability & 0x1 << 4) | (m.RaimRepair & 0x1 << 5)
 	bs[33] = flags
 
 	return bs, nil
