@@ -32,7 +32,7 @@ func main() {
 	frd := sbp.NewFrameReader(os.Stdin)
 
 	for {
-		fr, err := frd.Next()
+		fr, err := frd.ReadFrame()
 		if err == io.EOF {
 			os.Exit(0)
 		}
