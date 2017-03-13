@@ -9,6 +9,9 @@ import (
 // FramePreamble is value of Preamble.
 const FramePreamble = 0x55
 
+// SenderDeviceController is the sender id representing device controllers.
+const SenderDeviceController = 0x42
+
 var (
 	// ErrInvalidFrame is returned when detect a malformed format.
 	ErrInvalidFrame = errors.New("invalid frame")
