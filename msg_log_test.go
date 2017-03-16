@@ -2,6 +2,7 @@ package sbp
 
 import (
 	"bytes"
+	"io"
 	"reflect"
 	"testing"
 )
@@ -27,6 +28,11 @@ func Test_MsgLog_FromBytes(t *testing.T) {
 				Text:  "abcde",
 			},
 			expErr: nil,
+		},
+		{
+			in:     []byte{},
+			exp:    nil,
+			expErr: io.ErrUnexpectedEOF,
 		},
 	}
 
