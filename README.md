@@ -5,6 +5,7 @@ Parser/Serializer for the Swift Navigation Binary Protocol (SBP). This is compat
 
 [![GoDoc](https://godoc.org/github.com/kteru/sbp?status.svg)](https://godoc.org/github.com/kteru/sbp)
 [![Build Status](https://travis-ci.org/kteru/sbp.svg?branch=master)](https://travis-ci.org/kteru/sbp)
+[![Coverage Status](https://coveralls.io/repos/github/kteru/sbp/badge.svg?branch=master)](https://coveralls.io/github/kteru/sbp?branch=master)
 
 Installation
 ------------
