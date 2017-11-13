@@ -32,7 +32,7 @@ func (m *MsgFwd) Bytes() ([]byte, error) {
 	bs[0] = m.Source
 	bs[1] = m.Protocol
 
-	bs = append(bs, []byte(m.FwdPayload)...)
+	bs = append(bs, m.FwdPayload...)
 
 	return bs, nil
 }
