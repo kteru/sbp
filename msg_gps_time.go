@@ -17,7 +17,7 @@ type MsgGpsTime struct {
 	Ns uint32
 
 	// Status flags
-	Flags uint8
+	TimeSource uint8
 }
 
 func (m *MsgGpsTime) FromBytes(bs []byte) error {
@@ -29,7 +29,8 @@ func (m *MsgGpsTime) FromBytes(bs []byte) error {
 	m.Tow = binary.LittleEndian.Uint32(bs[2:6])
 	m.Ns = binary.LittleEndian.Uint32(bs[6:10])
 
-	m.Flags = bs[10]
+	flags := bs[10]
+	m.TimeSource = flags & 0x7
 
 	return nil
 }
@@ -41,7 +42,8 @@ func (m *MsgGpsTime) Bytes() ([]byte, error) {
 	binary.LittleEndian.PutUint32(bs[2:6], m.Tow)
 	binary.LittleEndian.PutUint32(bs[6:10], m.Ns)
 
-	bs[10] = m.Flags
+	flags := m.TimeSource & 0x7
+	bs[10] = flags
 
 	return bs, nil
 }

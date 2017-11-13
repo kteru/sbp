@@ -25,7 +25,7 @@ type MsgVelNed struct {
 	NumSats uint8
 
 	// Status flags
-	Flags uint8
+	VelocityMode uint8
 }
 
 func (m *MsgVelNed) FromBytes(bs []byte) error {
@@ -43,7 +43,9 @@ func (m *MsgVelNed) FromBytes(bs []byte) error {
 	m.VAccuracy = binary.LittleEndian.Uint16(bs[18:20])
 
 	m.NumSats = bs[20]
-	m.Flags = bs[21]
+
+	flags := bs[21]
+	m.VelocityMode = flags & 0x7
 
 	return nil
 }
@@ -61,7 +63,9 @@ func (m *MsgVelNed) Bytes() ([]byte, error) {
 	binary.LittleEndian.PutUint16(bs[18:20], m.VAccuracy)
 
 	bs[20] = m.NumSats
-	bs[21] = m.Flags
+
+	flags := m.VelocityMode & 0x7
+	bs[21] = flags
 
 	return bs, nil
 }
