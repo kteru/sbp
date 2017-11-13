@@ -22,9 +22,8 @@ type MsgBaselineEcef struct {
 	NumSats uint8
 
 	// Status flags
-	FixMode          uint8
-	RaimAvailability uint8
-	RaimRepair       uint8
+	FixMode    uint8
+	RaimRepair uint8
 }
 
 func (m *MsgBaselineEcef) FromBytes(bs []byte) error {
@@ -44,8 +43,7 @@ func (m *MsgBaselineEcef) FromBytes(bs []byte) error {
 
 	flags := bs[19]
 	m.FixMode = flags & 0x7
-	m.RaimAvailability = flags >> 3 & 0x1
-	m.RaimRepair = flags >> 4 & 0x1
+	m.RaimRepair = flags >> 7 & 0x1
 
 	return nil
 }
@@ -63,7 +61,7 @@ func (m *MsgBaselineEcef) Bytes() ([]byte, error) {
 
 	bs[18] = m.NumSats
 
-	flags := (m.FixMode & 0x7) | (m.RaimAvailability & 0x1 << 3) | (m.RaimRepair & 0x1 << 4)
+	flags := (m.FixMode & 0x7) | (m.RaimRepair & 0x1 << 7)
 	bs[19] = flags
 
 	return bs, nil

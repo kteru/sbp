@@ -28,10 +28,8 @@ type MsgPosLlh struct {
 	NumSats uint8
 
 	// Status flags
-	FixMode          uint8
-	HeightMode       uint8
-	RaimAvailability uint8
-	RaimRepair       uint8
+	FixMode    uint8
+	RaimRepair uint8
 }
 
 func (m *MsgPosLlh) FromBytes(bs []byte) error {
@@ -52,9 +50,7 @@ func (m *MsgPosLlh) FromBytes(bs []byte) error {
 
 	flags := bs[33]
 	m.FixMode = flags & 0x7
-	m.HeightMode = flags >> 3 & 0x1
-	m.RaimAvailability = flags >> 4 & 0x1
-	m.RaimRepair = flags >> 5 & 0x1
+	m.RaimRepair = flags >> 7 & 0x1
 
 	return nil
 }
@@ -73,7 +69,7 @@ func (m *MsgPosLlh) Bytes() ([]byte, error) {
 
 	bs[32] = m.NumSats
 
-	flags := (m.FixMode & 0x7) | (m.HeightMode & 0x1 << 3) | (m.RaimAvailability & 0x1 << 4) | (m.RaimRepair & 0x1 << 5)
+	flags := (m.FixMode & 0x7) | (m.RaimRepair & 0x1 << 7)
 	bs[33] = flags
 
 	return bs, nil
