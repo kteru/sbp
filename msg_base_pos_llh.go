@@ -16,6 +16,10 @@ type MsgBasePosLlh struct {
 	Height float64
 }
 
+func (m *MsgBasePosLlh) MsgType() uint16 {
+	return TypeMsgBasePosLlh
+}
+
 func (m *MsgBasePosLlh) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 24 {
 		return io.ErrUnexpectedEOF

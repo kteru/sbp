@@ -11,6 +11,10 @@ type MsgStartup struct {
 	Reserved uint32
 }
 
+func (m *MsgStartup) MsgType() uint16 {
+	return TypeMsgStartup
+}
+
 func (m *MsgStartup) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF

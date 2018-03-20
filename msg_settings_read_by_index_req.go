@@ -11,6 +11,10 @@ type MsgSettingsReadByIndexReq struct {
 	Index uint16
 }
 
+func (m *MsgSettingsReadByIndexReq) MsgType() uint16 {
+	return TypeMsgSettingsReadByIndexReq
+}
+
 func (m *MsgSettingsReadByIndexReq) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 2 {
 		return io.ErrUnexpectedEOF

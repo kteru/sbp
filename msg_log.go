@@ -11,6 +11,10 @@ type MsgLog struct {
 	Text string
 }
 
+func (m *MsgLog) MsgType() uint16 {
+	return TypeMsgLog
+}
+
 func (m *MsgLog) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 1 {
 		return io.ErrUnexpectedEOF

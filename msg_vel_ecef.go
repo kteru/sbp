@@ -25,6 +25,10 @@ type MsgVelEcef struct {
 	VelocityMode uint8
 }
 
+func (m *MsgVelEcef) MsgType() uint16 {
+	return TypeMsgVelEcef
+}
+
 func (m *MsgVelEcef) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 20 {
 		return io.ErrUnexpectedEOF

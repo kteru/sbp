@@ -4,6 +4,10 @@ package sbp
 type MsgSettingsReadByIndexDone struct {
 }
 
+func (m *MsgSettingsReadByIndexDone) MsgType() uint16 {
+	return TypeMsgSettingsReadByIndexDone
+}
+
 func (m *MsgSettingsReadByIndexDone) UnmarshalBinary(bs []byte) error {
 	if len(bs) != 0 {
 		return ErrInvalidMsg

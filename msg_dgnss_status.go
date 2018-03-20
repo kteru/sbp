@@ -20,6 +20,10 @@ type MsgDgnssStatus struct {
 	Source string
 }
 
+func (m *MsgDgnssStatus) MsgType() uint16 {
+	return TypeMsgDgnssStatus
+}
+
 func (m *MsgDgnssStatus) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF

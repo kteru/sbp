@@ -44,6 +44,10 @@ type MsgEphemerisSbas struct {
 	AGf1 float64
 }
 
+func (m *MsgEphemerisSbas) MsgType() uint16 {
+	return TypeMsgEphemerisSbas
+}
+
 func (m *MsgEphemerisSbas) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 110 {
 		return io.ErrUnexpectedEOF

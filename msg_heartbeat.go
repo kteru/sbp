@@ -13,6 +13,10 @@ type MsgHeartbeat struct {
 	SwiftNapError   uint8
 }
 
+func (m *MsgHeartbeat) MsgType() uint16 {
+	return TypeMsgHeartbeat
+}
+
 func (m *MsgHeartbeat) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF

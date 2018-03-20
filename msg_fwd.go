@@ -13,6 +13,10 @@ type MsgFwd struct {
 	FwdPayload []byte
 }
 
+func (m *MsgFwd) MsgType() uint16 {
+	return TypeMsgFwd
+}
+
 func (m *MsgFwd) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 2 {
 		return io.ErrUnexpectedEOF

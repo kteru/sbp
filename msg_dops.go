@@ -29,6 +29,10 @@ type MsgDops struct {
 	RaimRepair uint8
 }
 
+func (m *MsgDops) MsgType() uint16 {
+	return TypeMsgDops
+}
+
 func (m *MsgDops) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 15 {
 		return io.ErrUnexpectedEOF

@@ -21,6 +21,10 @@ type MsgBaselineHeading struct {
 	RaimRepair uint8
 }
 
+func (m *MsgBaselineHeading) MsgType() uint16 {
+	return TypeMsgBaselineHeading
+}
+
 func (m *MsgBaselineHeading) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 10 {
 		return io.ErrUnexpectedEOF

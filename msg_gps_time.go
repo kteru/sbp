@@ -20,6 +20,10 @@ type MsgGpsTime struct {
 	TimeSource uint8
 }
 
+func (m *MsgGpsTime) MsgType() uint16 {
+	return TypeMsgGpsTime
+}
+
 func (m *MsgGpsTime) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 11 {
 		return io.ErrUnexpectedEOF

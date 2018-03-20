@@ -14,6 +14,10 @@ type MsgAgeCorrections struct {
 	Age uint16
 }
 
+func (m *MsgAgeCorrections) MsgType() uint16 {
+	return TypeMsgAgeCorrections
+}
+
 func (m *MsgAgeCorrections) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 6 {
 		return io.ErrUnexpectedEOF

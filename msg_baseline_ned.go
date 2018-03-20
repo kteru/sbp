@@ -29,6 +29,10 @@ type MsgBaselineNed struct {
 	RaimRepair uint8
 }
 
+func (m *MsgBaselineNed) MsgType() uint16 {
+	return TypeMsgBaselineNed
+}
+
 func (m *MsgBaselineNed) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 22 {
 		return io.ErrUnexpectedEOF

@@ -10,6 +10,10 @@ type MsgSettingsReadResp struct {
 	Value          string
 }
 
+func (m *MsgSettingsReadResp) MsgType() uint16 {
+	return TypeMsgSettingsReadResp
+}
+
 func (m *MsgSettingsReadResp) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 

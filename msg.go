@@ -89,6 +89,9 @@ var (
 
 // Msg represents a Message contents.
 type Msg interface {
+	// MsgType returns the number representing the type.
+	MsgType() uint16
+
 	// UnmarshalBinary parses a byte slice.
 	UnmarshalBinary([]byte) error
 

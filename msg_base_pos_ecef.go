@@ -14,6 +14,10 @@ type MsgBasePosEcef struct {
 	Z float64
 }
 
+func (m *MsgBasePosEcef) MsgType() uint16 {
+	return TypeMsgBasePosEcef
+}
+
 func (m *MsgBasePosEcef) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 24 {
 		return io.ErrUnexpectedEOF

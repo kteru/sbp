@@ -10,6 +10,10 @@ type MsgSettingsWrite struct {
 	Value          string
 }
 
+func (m *MsgSettingsWrite) MsgType() uint16 {
+	return TypeMsgSettingsWrite
+}
+
 func (m *MsgSettingsWrite) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 

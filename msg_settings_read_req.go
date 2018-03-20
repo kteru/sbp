@@ -9,6 +9,10 @@ type MsgSettingsReadReq struct {
 	Setting        string
 }
 
+func (m *MsgSettingsReadReq) MsgType() uint16 {
+	return TypeMsgSettingsReadReq
+}
+
 func (m *MsgSettingsReadReq) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 

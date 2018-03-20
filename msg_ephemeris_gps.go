@@ -78,6 +78,10 @@ type MsgEphemerisGps struct {
 	Iodc uint16
 }
 
+func (m *MsgEphemerisGps) MsgType() uint16 {
+	return TypeMsgEphemerisGps
+}
+
 func (m *MsgEphemerisGps) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 183 {
 		return io.ErrUnexpectedEOF

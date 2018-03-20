@@ -23,6 +23,10 @@ type MsgObs struct {
 	Observations []*MsgObsObservation
 }
 
+func (m *MsgObs) MsgType() uint16 {
+	return TypeMsgObs
+}
+
 func (m *MsgObs) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 11 {
 		return io.ErrUnexpectedEOF

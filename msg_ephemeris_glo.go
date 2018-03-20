@@ -51,6 +51,10 @@ type MsgEphemerisGlo struct {
 	Iod uint8
 }
 
+func (m *MsgEphemerisGlo) MsgType() uint16 {
+	return TypeMsgEphemerisGlo
+}
+
 func (m *MsgEphemerisGlo) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 120 {
 		return io.ErrUnexpectedEOF

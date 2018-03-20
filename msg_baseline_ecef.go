@@ -26,6 +26,10 @@ type MsgBaselineEcef struct {
 	RaimRepair uint8
 }
 
+func (m *MsgBaselineEcef) MsgType() uint16 {
+	return TypeMsgBaselineEcef
+}
+
 func (m *MsgBaselineEcef) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 20 {
 		return io.ErrUnexpectedEOF

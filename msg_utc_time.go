@@ -19,6 +19,10 @@ type MsgUtcTime struct {
 	Time time.Time
 }
 
+func (m *MsgUtcTime) MsgType() uint16 {
+	return TypeMsgUtcTime
+}
+
 func (m *MsgUtcTime) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 16 {
 		return io.ErrUnexpectedEOF

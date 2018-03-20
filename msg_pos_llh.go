@@ -32,6 +32,10 @@ type MsgPosLlh struct {
 	RaimRepair uint8
 }
 
+func (m *MsgPosLlh) MsgType() uint16 {
+	return TypeMsgPosLlh
+}
+
 func (m *MsgPosLlh) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 34 {
 		return io.ErrUnexpectedEOF
