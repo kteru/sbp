@@ -11,7 +11,7 @@ type MsgStartup struct {
 	Reserved uint32
 }
 
-func (m *MsgStartup) FromBytes(bs []byte) error {
+func (m *MsgStartup) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF
 	}
@@ -21,7 +21,7 @@ func (m *MsgStartup) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgStartup) Bytes() ([]byte, error) {
+func (m *MsgStartup) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Reserved)

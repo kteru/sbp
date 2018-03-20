@@ -11,7 +11,7 @@ type MsgLog struct {
 	Text string
 }
 
-func (m *MsgLog) FromBytes(bs []byte) error {
+func (m *MsgLog) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 1 {
 		return io.ErrUnexpectedEOF
 	}
@@ -23,7 +23,7 @@ func (m *MsgLog) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgLog) Bytes() ([]byte, error) {
+func (m *MsgLog) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 1, 1+len(m.Text))
 
 	bs[0] = m.Level

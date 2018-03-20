@@ -13,7 +13,7 @@ type MsgFwd struct {
 	FwdPayload []byte
 }
 
-func (m *MsgFwd) FromBytes(bs []byte) error {
+func (m *MsgFwd) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 2 {
 		return io.ErrUnexpectedEOF
 	}
@@ -26,7 +26,7 @@ func (m *MsgFwd) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgFwd) Bytes() ([]byte, error) {
+func (m *MsgFwd) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 2, 2+len(m.FwdPayload))
 
 	bs[0] = m.Source

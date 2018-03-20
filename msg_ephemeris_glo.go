@@ -51,7 +51,7 @@ type MsgEphemerisGlo struct {
 	Iod uint8
 }
 
-func (m *MsgEphemerisGlo) FromBytes(bs []byte) error {
+func (m *MsgEphemerisGlo) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 120 {
 		return io.ErrUnexpectedEOF
 	}
@@ -82,7 +82,7 @@ func (m *MsgEphemerisGlo) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgEphemerisGlo) Bytes() ([]byte, error) {
+func (m *MsgEphemerisGlo) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 120)
 
 	bs[0] = m.SidSat

@@ -23,7 +23,7 @@ type MsgObs struct {
 	Observations []*MsgObsObservation
 }
 
-func (m *MsgObs) FromBytes(bs []byte) error {
+func (m *MsgObs) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 11 {
 		return io.ErrUnexpectedEOF
 	}
@@ -44,7 +44,7 @@ func (m *MsgObs) FromBytes(bs []byte) error {
 		o := 17*i + 11
 
 		obs := &MsgObsObservation{}
-		if err := obs.FromBytes(bs[o : o+17]); err != nil {
+		if err := obs.UnmarshalBinary(bs[o : o+17]); err != nil {
 			return err
 		}
 
@@ -54,7 +54,7 @@ func (m *MsgObs) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgObs) Bytes() ([]byte, error) {
+func (m *MsgObs) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 11, 11+17*len(m.Observations))
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)
@@ -63,7 +63,7 @@ func (m *MsgObs) Bytes() ([]byte, error) {
 	bs[10] = m.NObs
 
 	for _, obs := range m.Observations {
-		b, err := obs.Bytes()
+		b, err := obs.MarshalBinary()
 		if err != nil {
 			return nil, err
 		}
@@ -108,7 +108,7 @@ type MsgObsObservation struct {
 	SidCode uint8
 }
 
-func (m *MsgObsObservation) FromBytes(bs []byte) error {
+func (m *MsgObsObservation) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 17 {
 		return io.ErrUnexpectedEOF
 	}
@@ -134,7 +134,7 @@ func (m *MsgObsObservation) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgObsObservation) Bytes() ([]byte, error) {
+func (m *MsgObsObservation) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 17)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.P)

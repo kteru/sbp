@@ -23,7 +23,7 @@ func NewFrameWriter(wr io.Writer) *FrameWriter {
 
 // WriteFrame writes a single Frame.
 func (fwr *FrameWriter) WriteFrame(f *Frame) (int, error) {
-	bs, err := f.Bytes()
+	bs, err := f.MarshalBinary()
 	if err != nil {
 		return 0, nil
 	}

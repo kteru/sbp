@@ -20,7 +20,7 @@ type MsgGpsTime struct {
 	TimeSource uint8
 }
 
-func (m *MsgGpsTime) FromBytes(bs []byte) error {
+func (m *MsgGpsTime) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 11 {
 		return io.ErrUnexpectedEOF
 	}
@@ -35,7 +35,7 @@ func (m *MsgGpsTime) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgGpsTime) Bytes() ([]byte, error) {
+func (m *MsgGpsTime) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 11)
 
 	binary.LittleEndian.PutUint16(bs[0:2], m.Wn)

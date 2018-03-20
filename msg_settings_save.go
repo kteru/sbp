@@ -4,7 +4,7 @@ package sbp
 type MsgSettingsSave struct {
 }
 
-func (m *MsgSettingsSave) FromBytes(bs []byte) error {
+func (m *MsgSettingsSave) UnmarshalBinary(bs []byte) error {
 	if len(bs) != 0 {
 		return ErrInvalidMsg
 	}
@@ -12,6 +12,6 @@ func (m *MsgSettingsSave) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgSettingsSave) Bytes() ([]byte, error) {
+func (m *MsgSettingsSave) MarshalBinary() ([]byte, error) {
 	return nil, nil
 }

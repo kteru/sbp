@@ -20,7 +20,7 @@ type MsgDgnssStatus struct {
 	Source string
 }
 
-func (m *MsgDgnssStatus) FromBytes(bs []byte) error {
+func (m *MsgDgnssStatus) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF
 	}
@@ -36,7 +36,7 @@ func (m *MsgDgnssStatus) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgDgnssStatus) Bytes() ([]byte, error) {
+func (m *MsgDgnssStatus) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4, 4+len(m.Source))
 
 	flags := m.DifferentialType & 0xf

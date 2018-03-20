@@ -4,7 +4,7 @@ package sbp
 type MsgSettingsReadByIndexDone struct {
 }
 
-func (m *MsgSettingsReadByIndexDone) FromBytes(bs []byte) error {
+func (m *MsgSettingsReadByIndexDone) UnmarshalBinary(bs []byte) error {
 	if len(bs) != 0 {
 		return ErrInvalidMsg
 	}
@@ -12,6 +12,6 @@ func (m *MsgSettingsReadByIndexDone) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgSettingsReadByIndexDone) Bytes() ([]byte, error) {
+func (m *MsgSettingsReadByIndexDone) MarshalBinary() ([]byte, error) {
 	return nil, nil
 }

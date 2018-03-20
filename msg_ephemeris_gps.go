@@ -78,7 +78,7 @@ type MsgEphemerisGps struct {
 	Iodc uint16
 }
 
-func (m *MsgEphemerisGps) FromBytes(bs []byte) error {
+func (m *MsgEphemerisGps) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 183 {
 		return io.ErrUnexpectedEOF
 	}
@@ -118,7 +118,7 @@ func (m *MsgEphemerisGps) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgEphemerisGps) Bytes() ([]byte, error) {
+func (m *MsgEphemerisGps) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 183)
 
 	bs[0] = m.SidSat

@@ -19,7 +19,7 @@ type MsgUtcTime struct {
 	Time time.Time
 }
 
-func (m *MsgUtcTime) FromBytes(bs []byte) error {
+func (m *MsgUtcTime) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 16 {
 		return io.ErrUnexpectedEOF
 	}
@@ -44,7 +44,7 @@ func (m *MsgUtcTime) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgUtcTime) Bytes() ([]byte, error) {
+func (m *MsgUtcTime) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 16)
 
 	flags := (m.TimeSource & 0x7) | (m.UtcOffsetSource & 0x3 << 3)

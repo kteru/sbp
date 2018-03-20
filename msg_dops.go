@@ -29,7 +29,7 @@ type MsgDops struct {
 	RaimRepair uint8
 }
 
-func (m *MsgDops) FromBytes(bs []byte) error {
+func (m *MsgDops) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 15 {
 		return io.ErrUnexpectedEOF
 	}
@@ -49,7 +49,7 @@ func (m *MsgDops) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgDops) Bytes() ([]byte, error) {
+func (m *MsgDops) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 15)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)

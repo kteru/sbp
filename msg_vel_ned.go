@@ -28,7 +28,7 @@ type MsgVelNed struct {
 	VelocityMode uint8
 }
 
-func (m *MsgVelNed) FromBytes(bs []byte) error {
+func (m *MsgVelNed) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 22 {
 		return io.ErrUnexpectedEOF
 	}
@@ -50,7 +50,7 @@ func (m *MsgVelNed) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgVelNed) Bytes() ([]byte, error) {
+func (m *MsgVelNed) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 22)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)

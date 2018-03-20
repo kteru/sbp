@@ -16,7 +16,7 @@ type MsgBasePosLlh struct {
 	Height float64
 }
 
-func (m *MsgBasePosLlh) FromBytes(bs []byte) error {
+func (m *MsgBasePosLlh) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 24 {
 		return io.ErrUnexpectedEOF
 	}
@@ -28,7 +28,7 @@ func (m *MsgBasePosLlh) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgBasePosLlh) Bytes() ([]byte, error) {
+func (m *MsgBasePosLlh) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 24)
 
 	binary.LittleEndian.PutUint64(bs[0:8], math.Float64bits(m.Lat))

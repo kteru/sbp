@@ -13,7 +13,7 @@ type MsgHeartbeat struct {
 	SwiftNapError   uint8
 }
 
-func (m *MsgHeartbeat) FromBytes(bs []byte) error {
+func (m *MsgHeartbeat) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF
 	}
@@ -29,7 +29,7 @@ func (m *MsgHeartbeat) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgHeartbeat) Bytes() ([]byte, error) {
+func (m *MsgHeartbeat) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4)
 
 	bs[3] = m.ExternalAntenna & 0x1 << 7

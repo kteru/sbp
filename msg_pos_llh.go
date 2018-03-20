@@ -32,7 +32,7 @@ type MsgPosLlh struct {
 	RaimRepair uint8
 }
 
-func (m *MsgPosLlh) FromBytes(bs []byte) error {
+func (m *MsgPosLlh) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 34 {
 		return io.ErrUnexpectedEOF
 	}
@@ -55,7 +55,7 @@ func (m *MsgPosLlh) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgPosLlh) Bytes() ([]byte, error) {
+func (m *MsgPosLlh) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 34)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)

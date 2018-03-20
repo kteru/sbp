@@ -29,7 +29,7 @@ type MsgBaselineNed struct {
 	RaimRepair uint8
 }
 
-func (m *MsgBaselineNed) FromBytes(bs []byte) error {
+func (m *MsgBaselineNed) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 22 {
 		return io.ErrUnexpectedEOF
 	}
@@ -52,7 +52,7 @@ func (m *MsgBaselineNed) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgBaselineNed) Bytes() ([]byte, error) {
+func (m *MsgBaselineNed) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 22)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)

@@ -9,7 +9,7 @@ type MsgSettingsReadReq struct {
 	Setting        string
 }
 
-func (m *MsgSettingsReadReq) FromBytes(bs []byte) error {
+func (m *MsgSettingsReadReq) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 
 	if len(bss) != 3 || len(bss[2]) > 0 {
@@ -22,7 +22,7 @@ func (m *MsgSettingsReadReq) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgSettingsReadReq) Bytes() ([]byte, error) {
+func (m *MsgSettingsReadReq) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 0, len(m.SectionSetting)+1+len(m.Setting)+1)
 
 	bs = append(bs, []byte(m.SectionSetting)...)

@@ -61,8 +61,8 @@ func NewFrame(bs []byte) (*Frame, error) {
 	return f, nil
 }
 
-// Bytes returns a byte slice in accordance with the format.
-func (f *Frame) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (f *Frame) MarshalBinary() ([]byte, error) {
 	plen := len(f.Payload)
 	if plen > 255 {
 		return nil, ErrInvalidFrame
@@ -90,7 +90,7 @@ func (f *Frame) Msg() (Msg, error) {
 	}
 
 	msg := newFunc()
-	if err := msg.FromBytes(f.Payload); err != nil {
+	if err := msg.UnmarshalBinary(f.Payload); err != nil {
 		return nil, err
 	}
 

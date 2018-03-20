@@ -44,7 +44,7 @@ type MsgEphemerisSbas struct {
 	AGf1 float64
 }
 
-func (m *MsgEphemerisSbas) FromBytes(bs []byte) error {
+func (m *MsgEphemerisSbas) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 110 {
 		return io.ErrUnexpectedEOF
 	}
@@ -72,7 +72,7 @@ func (m *MsgEphemerisSbas) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgEphemerisSbas) Bytes() ([]byte, error) {
+func (m *MsgEphemerisSbas) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 110)
 
 	bs[0] = m.SidSat

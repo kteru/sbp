@@ -10,7 +10,7 @@ type MsgSettingsWrite struct {
 	Value          string
 }
 
-func (m *MsgSettingsWrite) FromBytes(bs []byte) error {
+func (m *MsgSettingsWrite) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 
 	if len(bss) != 4 || len(bss[3]) > 0 {
@@ -24,7 +24,7 @@ func (m *MsgSettingsWrite) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgSettingsWrite) Bytes() ([]byte, error) {
+func (m *MsgSettingsWrite) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 0, len(m.SectionSetting)+1+len(m.Setting)+1+len(m.Value)+1)
 
 	bs = append(bs, []byte(m.SectionSetting)...)

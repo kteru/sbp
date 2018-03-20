@@ -89,9 +89,9 @@ var (
 
 // Msg represents a Message contents.
 type Msg interface {
-	// FromBytes parses a byte slice.
-	FromBytes([]byte) error
+	// UnmarshalBinary parses a byte slice.
+	UnmarshalBinary([]byte) error
 
-	// Bytes returns a byte slice in accordance with the format.
-	Bytes() ([]byte, error)
+	// MarshalBinary returns a byte slice in accordance with the format.
+	MarshalBinary() ([]byte, error)
 }

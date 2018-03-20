@@ -14,7 +14,7 @@ type MsgAgeCorrections struct {
 	Age uint16
 }
 
-func (m *MsgAgeCorrections) FromBytes(bs []byte) error {
+func (m *MsgAgeCorrections) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 6 {
 		return io.ErrUnexpectedEOF
 	}
@@ -25,7 +25,7 @@ func (m *MsgAgeCorrections) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgAgeCorrections) Bytes() ([]byte, error) {
+func (m *MsgAgeCorrections) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 6)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)

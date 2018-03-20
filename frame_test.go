@@ -76,7 +76,7 @@ func Benchmark_NewFrame(b *testing.B) {
 	}
 }
 
-func Test_Frame_Bytes(t *testing.T) {
+func Test_Frame_MarshalBinary(t *testing.T) {
 	tests := []struct {
 		in     *Frame
 		exp    []byte
@@ -103,7 +103,7 @@ func Test_Frame_Bytes(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		act, actErr := test.in.Bytes()
+		act, actErr := test.in.MarshalBinary()
 		exp := test.exp
 		expErr := test.expErr
 
@@ -119,7 +119,7 @@ func Test_Frame_Bytes(t *testing.T) {
 	}
 }
 
-func Benchmark_Frame_Bytes(b *testing.B) {
+func Benchmark_Frame_MarshalBinary(b *testing.B) {
 	v := &Frame{
 		Type:    TypeMsgSettingsReadByIndexDone,
 		Sender:  SenderDeviceController,
@@ -128,7 +128,7 @@ func Benchmark_Frame_Bytes(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = v.Bytes()
+		_, _ = v.MarshalBinary()
 	}
 }
 

@@ -17,7 +17,7 @@ type MsgSettingsReadByIndexResp struct {
 	Value          string
 }
 
-func (m *MsgSettingsReadByIndexResp) FromBytes(bs []byte) error {
+func (m *MsgSettingsReadByIndexResp) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 2 {
 		return io.ErrUnexpectedEOF
 	}
@@ -37,7 +37,7 @@ func (m *MsgSettingsReadByIndexResp) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgSettingsReadByIndexResp) Bytes() ([]byte, error) {
+func (m *MsgSettingsReadByIndexResp) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 2, 2+len(m.SectionSetting)+1+len(m.Setting)+1+len(m.Value)+1)
 
 	binary.LittleEndian.PutUint16(bs[0:2], m.Index)
