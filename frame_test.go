@@ -190,3 +190,50 @@ func Benchmark_Frame_Msg(b *testing.B) {
 		_, _ = v.Msg()
 	}
 }
+
+func Test_Frame_SetMsg(t *testing.T) {
+	tests := []struct {
+		in     Msg
+		exp    *Frame
+		expErr error
+	}{
+		{
+			in: new(MsgSettingsReadByIndexDone),
+			exp: &Frame{
+				Type:    TypeMsgSettingsReadByIndexDone,
+				Payload: []byte{},
+			},
+			expErr: nil,
+		},
+	}
+
+	for _, test := range tests {
+		act := &Frame{}
+		actErr := act.SetMsg(test.in)
+		exp := test.exp
+		expErr := test.expErr
+
+		if actErr != expErr {
+			t.Errorf("\n  actual: %#v\nexpected: %#v\n", actErr, expErr)
+		}
+
+		if actErr == nil && expErr == nil {
+			acType := reflect.ValueOf(act).Type().String()
+			exType := reflect.ValueOf(exp).Type().String()
+
+			if acType != exType {
+				t.Errorf("\n  actual: %#v\nexpected: %#v\n", acType, exType)
+			}
+		}
+	}
+}
+
+func Benchmark_Frame_SetMsg(b *testing.B) {
+	f := &Frame{}
+	m := new(MsgSettingsReadByIndexDone)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = f.SetMsg(m)
+	}
+}

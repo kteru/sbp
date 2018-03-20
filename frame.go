@@ -84,15 +84,36 @@ func (f *Frame) MarshalBinary() ([]byte, error) {
 
 // Msg parse the Message payload and return it.
 func (f *Frame) Msg() (Msg, error) {
-	newFunc, ok := TypeToMsg[f.Type]
+	fn, ok := typeToMsg[f.Type]
 	if !ok {
 		return nil, ErrUnsupportedMessage
 	}
 
-	msg := newFunc()
+	msg := fn()
 	if err := msg.UnmarshalBinary(f.Payload); err != nil {
 		return nil, err
 	}
 
 	return msg, nil
+}
+
+// SetMsg sets the Message to payload.
+func (f *Frame) SetMsg(m Msg) error {
+	if m == nil {
+		return ErrUnsupportedMessage
+	}
+
+	if _, ok := typeToMsg[m.MsgType()]; !ok {
+		return ErrUnsupportedMessage
+	}
+
+	bs, err := m.MarshalBinary()
+	if err != nil {
+		return err
+	}
+
+	f.Type = m.MsgType()
+	f.Payload = bs
+
+	return nil
 }

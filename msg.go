@@ -49,8 +49,8 @@ const (
 	TypeMsgHeartbeat   uint16 = 0xffff
 )
 
-// TypeToMsg is a map of constructors for Messages.
-var TypeToMsg = map[uint16]func() Msg{
+// typeToMsg is a map of constructors for Messages.
+var typeToMsg = map[uint16]func() Msg{
 	TypeMsgLog:                     func() Msg { return new(MsgLog) },
 	TypeMsgFwd:                     func() Msg { return new(MsgFwd) },
 	TypeMsgGpsTime:                 func() Msg { return new(MsgGpsTime) },
