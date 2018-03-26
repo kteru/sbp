@@ -2,6 +2,10 @@ package sbp
 
 // Message types
 const (
+	//
+	// Stable messages
+	//
+
 	// Ext Events
 	TypeMsgExtEvent uint16 = 0x0101
 
@@ -17,17 +21,21 @@ const (
 	TypeMsgMagRaw uint16 = 0x0902
 
 	// Navigation
-	TypeMsgGpsTime         uint16 = 0x0102
-	TypeMsgUtcTime         uint16 = 0x0103
-	TypeMsgDops            uint16 = 0x0208
-	TypeMsgPosEcef         uint16 = 0x0209
-	TypeMsgPosLlh          uint16 = 0x020a
-	TypeMsgBaselineEcef    uint16 = 0x020b
-	TypeMsgBaselineNed     uint16 = 0x020c
-	TypeMsgVelEcef         uint16 = 0x020d
-	TypeMsgVelNed          uint16 = 0x020e
-	TypeMsgBaselineHeading uint16 = 0x020f
-	TypeMsgAgeCorrections  uint16 = 0x0210
+	TypeMsgGpsTime        uint16 = 0x0102
+	TypeMsgUtcTime        uint16 = 0x0103
+	TypeMsgDops           uint16 = 0x0208
+	TypeMsgPosEcef        uint16 = 0x0209
+	TypeMsgPosEcefCov     uint16 = 0x0214
+	TypeMsgPosLlh         uint16 = 0x020a
+	TypeMsgPosLlhCov      uint16 = 0x0211
+	TypeMsgBaselineEcef   uint16 = 0x020b
+	TypeMsgBaselineNed    uint16 = 0x020c
+	TypeMsgVelEcef        uint16 = 0x020d
+	TypeMsgVelEcefCov     uint16 = 0x0215
+	TypeMsgVelNed         uint16 = 0x020e
+	TypeMsgVelNedCov      uint16 = 0x0212
+	TypeMsgVelBody        uint16 = 0x0213
+	TypeMsgAgeCorrections uint16 = 0x0210
 
 	// Observation
 	TypeMsgObs           uint16 = 0x004a
@@ -50,6 +58,13 @@ const (
 	TypeMsgStartup     uint16 = 0xff00
 	TypeMsgDgnssStatus uint16 = 0xff02
 	TypeMsgHeartbeat   uint16 = 0xffff
+
+	//
+	// Draft messages
+	//
+
+	// Orientation
+	TypeMsgBaselineHeading uint16 = 0x020f
 )
 
 // typeToMsg is a map of constructors for Messages.
@@ -64,12 +79,16 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgUtcTime:                 func() Msg { return new(MsgUtcTime) },
 	TypeMsgDops:                    func() Msg { return new(MsgDops) },
 	TypeMsgPosEcef:                 func() Msg { return new(MsgPosEcef) },
+	TypeMsgPosEcefCov:              func() Msg { return new(MsgPosEcefCov) },
 	TypeMsgPosLlh:                  func() Msg { return new(MsgPosLlh) },
+	TypeMsgPosLlhCov:               func() Msg { return new(MsgPosLlhCov) },
 	TypeMsgBaselineEcef:            func() Msg { return new(MsgBaselineEcef) },
 	TypeMsgBaselineNed:             func() Msg { return new(MsgBaselineNed) },
 	TypeMsgVelEcef:                 func() Msg { return new(MsgVelEcef) },
+	TypeMsgVelEcefCov:              func() Msg { return new(MsgVelEcefCov) },
 	TypeMsgVelNed:                  func() Msg { return new(MsgVelNed) },
-	TypeMsgBaselineHeading:         func() Msg { return new(MsgBaselineHeading) },
+	TypeMsgVelNedCov:               func() Msg { return new(MsgVelNedCov) },
+	TypeMsgVelBody:                 func() Msg { return new(MsgVelBody) },
 	TypeMsgAgeCorrections:          func() Msg { return new(MsgAgeCorrections) },
 	TypeMsgObs:                     func() Msg { return new(MsgObs) },
 	TypeMsgBasePosLlh:              func() Msg { return new(MsgBasePosLlh) },
@@ -87,6 +106,7 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgStartup:                 func() Msg { return new(MsgStartup) },
 	TypeMsgDgnssStatus:             func() Msg { return new(MsgDgnssStatus) },
 	TypeMsgHeartbeat:               func() Msg { return new(MsgHeartbeat) },
+	TypeMsgBaselineHeading:         func() Msg { return new(MsgBaselineHeading) },
 }
 
 // Msg represents a Message contents.
