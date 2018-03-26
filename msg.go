@@ -48,6 +48,7 @@ const (
 	// Settings
 	TypeMsgSettingsSave            uint16 = 0x00a1
 	TypeMsgSettingsWrite           uint16 = 0x00a0
+	TypeMsgSettingsWriteResp       uint16 = 0x00af
 	TypeMsgSettingsReadReq         uint16 = 0x00a4
 	TypeMsgSettingsReadResp        uint16 = 0x00a5
 	TypeMsgSettingsReadByIndexReq  uint16 = 0x00a2
@@ -58,6 +59,7 @@ const (
 	TypeMsgStartup     uint16 = 0xff00
 	TypeMsgDgnssStatus uint16 = 0xff02
 	TypeMsgHeartbeat   uint16 = 0xffff
+	TypeMsgInsStatus   uint16 = 0xff03
 
 	//
 	// Draft messages
@@ -98,6 +100,7 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgEphemerisGlo:            func() Msg { return new(MsgEphemerisGlo) },
 	TypeMsgSettingsSave:            func() Msg { return new(MsgSettingsSave) },
 	TypeMsgSettingsWrite:           func() Msg { return new(MsgSettingsWrite) },
+	TypeMsgSettingsWriteResp:       func() Msg { return new(MsgSettingsWriteResp) },
 	TypeMsgSettingsReadReq:         func() Msg { return new(MsgSettingsReadReq) },
 	TypeMsgSettingsReadResp:        func() Msg { return new(MsgSettingsReadResp) },
 	TypeMsgSettingsReadByIndexReq:  func() Msg { return new(MsgSettingsReadByIndexReq) },
@@ -106,6 +109,7 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgStartup:                 func() Msg { return new(MsgStartup) },
 	TypeMsgDgnssStatus:             func() Msg { return new(MsgDgnssStatus) },
 	TypeMsgHeartbeat:               func() Msg { return new(MsgHeartbeat) },
+	TypeMsgInsStatus:               func() Msg { return new(MsgInsStatus) },
 	TypeMsgBaselineHeading:         func() Msg { return new(MsgBaselineHeading) },
 }
 
