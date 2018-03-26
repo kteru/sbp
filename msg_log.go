@@ -20,7 +20,8 @@ func (m *MsgLog) UnmarshalBinary(bs []byte) error {
 		return io.ErrUnexpectedEOF
 	}
 
-	m.Level = bs[0]
+	level := bs[0]
+	m.Level = level & 0x7
 
 	m.Text = string(bs[1:])
 
@@ -30,7 +31,8 @@ func (m *MsgLog) UnmarshalBinary(bs []byte) error {
 func (m *MsgLog) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 1, 1+len(m.Text))
 
-	bs[0] = m.Level
+	level := m.Level & 0x7
+	bs[0] = level
 
 	bs = append(bs, []byte(m.Text)...)
 

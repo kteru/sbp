@@ -19,11 +19,10 @@ type MsgBaselineEcef struct {
 	Accuracy uint16
 
 	// Number of satellites used in solution
-	NumSats uint8
+	NSats uint8
 
 	// Status flags
-	FixMode    uint8
-	RaimRepair uint8
+	FixMode uint8
 }
 
 func (m *MsgBaselineEcef) MsgType() uint16 {
@@ -43,11 +42,10 @@ func (m *MsgBaselineEcef) UnmarshalBinary(bs []byte) error {
 
 	m.Accuracy = binary.LittleEndian.Uint16(bs[16:18])
 
-	m.NumSats = bs[18]
+	m.NSats = bs[18]
 
 	flags := bs[19]
 	m.FixMode = flags & 0x7
-	m.RaimRepair = flags >> 7 & 0x1
 
 	return nil
 }
@@ -63,9 +61,9 @@ func (m *MsgBaselineEcef) MarshalBinary() ([]byte, error) {
 
 	binary.LittleEndian.PutUint16(bs[16:18], m.Accuracy)
 
-	bs[18] = m.NumSats
+	bs[18] = m.NSats
 
-	flags := (m.FixMode & 0x7) | (m.RaimRepair & 0x1 << 7)
+	flags := m.FixMode & 0x7
 	bs[19] = flags
 
 	return bs, nil

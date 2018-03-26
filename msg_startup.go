@@ -7,8 +7,14 @@ import (
 
 // MsgStartup represents a contents of MSG_STARTUP.
 type MsgStartup struct {
+	// Cause of startup
+	Cause uint8
+
+	// Startup type
+	StartupType uint8
+
 	// Reserved
-	Reserved uint32
+	Reserved uint16
 }
 
 func (m *MsgStartup) MsgType() uint16 {
@@ -20,7 +26,10 @@ func (m *MsgStartup) UnmarshalBinary(bs []byte) error {
 		return io.ErrUnexpectedEOF
 	}
 
-	m.Reserved = binary.LittleEndian.Uint32(bs[0:4])
+	m.Cause = bs[0]
+	m.StartupType = bs[1]
+
+	m.Reserved = binary.LittleEndian.Uint16(bs[2:4])
 
 	return nil
 }
@@ -28,7 +37,10 @@ func (m *MsgStartup) UnmarshalBinary(bs []byte) error {
 func (m *MsgStartup) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4)
 
-	binary.LittleEndian.PutUint32(bs[0:4], m.Reserved)
+	bs[0] = m.Cause
+	bs[1] = m.StartupType
+
+	binary.LittleEndian.PutUint16(bs[2:4], m.Reserved)
 
 	return bs, nil
 }

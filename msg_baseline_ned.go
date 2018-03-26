@@ -22,11 +22,10 @@ type MsgBaselineNed struct {
 	VAccuracy uint16
 
 	// Number of satellites used in solution
-	NumSats uint8
+	NSats uint8
 
 	// Status flags
-	FixMode    uint8
-	RaimRepair uint8
+	FixMode uint8
 }
 
 func (m *MsgBaselineNed) MsgType() uint16 {
@@ -47,11 +46,10 @@ func (m *MsgBaselineNed) UnmarshalBinary(bs []byte) error {
 	m.HAccuracy = binary.LittleEndian.Uint16(bs[16:18])
 	m.VAccuracy = binary.LittleEndian.Uint16(bs[18:20])
 
-	m.NumSats = bs[20]
+	m.NSats = bs[20]
 
 	flags := bs[21]
 	m.FixMode = flags & 0x7
-	m.RaimRepair = flags >> 7 & 0x1
 
 	return nil
 }
@@ -68,9 +66,9 @@ func (m *MsgBaselineNed) MarshalBinary() ([]byte, error) {
 	binary.LittleEndian.PutUint16(bs[16:18], m.HAccuracy)
 	binary.LittleEndian.PutUint16(bs[18:20], m.VAccuracy)
 
-	bs[20] = m.NumSats
+	bs[20] = m.NSats
 
-	flags := (m.FixMode & 0x7) | (m.RaimRepair & 0x1 << 7)
+	flags := m.FixMode & 0x7
 	bs[21] = flags
 
 	return bs, nil

@@ -22,10 +22,11 @@ type MsgVelNed struct {
 	VAccuracy uint16
 
 	// Number of satellites used in solution
-	NumSats uint8
+	NSats uint8
 
 	// Status flags
-	VelocityMode uint8
+	VelocityMode           uint8
+	InertialNavigationMode uint8
 }
 
 func (m *MsgVelNed) MsgType() uint16 {
@@ -46,10 +47,11 @@ func (m *MsgVelNed) UnmarshalBinary(bs []byte) error {
 	m.HAccuracy = binary.LittleEndian.Uint16(bs[16:18])
 	m.VAccuracy = binary.LittleEndian.Uint16(bs[18:20])
 
-	m.NumSats = bs[20]
+	m.NSats = bs[20]
 
 	flags := bs[21]
 	m.VelocityMode = flags & 0x7
+	m.InertialNavigationMode = flags >> 3 & 0x3
 
 	return nil
 }
@@ -66,9 +68,9 @@ func (m *MsgVelNed) MarshalBinary() ([]byte, error) {
 	binary.LittleEndian.PutUint16(bs[16:18], m.HAccuracy)
 	binary.LittleEndian.PutUint16(bs[18:20], m.VAccuracy)
 
-	bs[20] = m.NumSats
+	bs[20] = m.NSats
 
-	flags := m.VelocityMode & 0x7
+	flags := (m.VelocityMode & 0x7) | (m.InertialNavigationMode & 0x3 << 3)
 	bs[21] = flags
 
 	return bs, nil
