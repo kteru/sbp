@@ -13,6 +13,9 @@ const (
 	TypeMsgLog uint16 = 0x0401
 	TypeMsgFwd uint16 = 0x0402
 
+	// Mag
+	TypeMsgMagRaw uint16 = 0x0902
+
 	// Navigation
 	TypeMsgGpsTime         uint16 = 0x0102
 	TypeMsgUtcTime         uint16 = 0x0103
@@ -56,6 +59,7 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgImuAux:                  func() Msg { return new(MsgImuAux) },
 	TypeMsgLog:                     func() Msg { return new(MsgLog) },
 	TypeMsgFwd:                     func() Msg { return new(MsgFwd) },
+	TypeMsgMagRaw:                  func() Msg { return new(MsgMagRaw) },
 	TypeMsgGpsTime:                 func() Msg { return new(MsgGpsTime) },
 	TypeMsgUtcTime:                 func() Msg { return new(MsgUtcTime) },
 	TypeMsgDops:                    func() Msg { return new(MsgDops) },
