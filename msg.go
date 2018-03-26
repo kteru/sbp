@@ -2,6 +2,13 @@ package sbp
 
 // Message types
 const (
+	// Ext Events
+	TypeMsgExtEvent uint16 = 0x0101
+
+	// Imu
+	TypeMsgImuRaw uint16 = 0x0900
+	TypeMsgImuAux uint16 = 0x0901
+
 	// Logging
 	TypeMsgLog uint16 = 0x0401
 	TypeMsgFwd uint16 = 0x0402
@@ -26,11 +33,6 @@ const (
 	TypeMsgEphemerisGps  uint16 = 0x0086
 	TypeMsgEphemerisSbas uint16 = 0x0084
 	TypeMsgEphemerisGlo  uint16 = 0x0088
-	// TypeMsgIono               uint16 = 0x0090
-	// TypeMsgSvConfigurationGps uint16 = 0x0091
-	// TypeMsgGroupDelay         uint16 = 0x0093
-	// TypeMsgAlmanacGps         uint16 = 0x0070
-	// TypeMsgAlmanacGlo         uint16 = 0x0071
 
 	// Settings
 	TypeMsgSettingsSave            uint16 = 0x00a1
@@ -49,6 +51,9 @@ const (
 
 // typeToMsg is a map of constructors for Messages.
 var typeToMsg = map[uint16]func() Msg{
+	TypeMsgExtEvent:                func() Msg { return new(MsgExtEvent) },
+	TypeMsgImuRaw:                  func() Msg { return new(MsgImuRaw) },
+	TypeMsgImuAux:                  func() Msg { return new(MsgImuAux) },
 	TypeMsgLog:                     func() Msg { return new(MsgLog) },
 	TypeMsgFwd:                     func() Msg { return new(MsgFwd) },
 	TypeMsgGpsTime:                 func() Msg { return new(MsgGpsTime) },
