@@ -1,7 +1,5 @@
 package sbp
 
-import "errors"
-
 // Message types
 const (
 	// Logging
@@ -81,11 +79,6 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgDgnssStatus:             func() Msg { return new(MsgDgnssStatus) },
 	TypeMsgHeartbeat:               func() Msg { return new(MsgHeartbeat) },
 }
-
-var (
-	// ErrInvalidMsg is returned when detect a malformed format.
-	ErrInvalidMsg = errors.New("invalid message")
-)
 
 // Msg represents a Message contents.
 type Msg interface {

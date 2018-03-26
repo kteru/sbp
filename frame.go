@@ -13,14 +13,8 @@ const FramePreamble = 0x55
 const SenderDeviceController = 0x42
 
 var (
-	// ErrInvalidFrame is returned when detect a malformed format.
-	ErrInvalidFrame = errors.New("invalid frame")
-
 	// ErrInvalidCRC is returned when detect an incorrect CRC.
 	ErrInvalidCRC = errors.New("invalid frame crc")
-
-	// ErrUnsupportedMessage is returned if message type is unsupported.
-	ErrUnsupportedMessage = errors.New("unsupported message type")
 )
 
 // Frame describes a Frame.
@@ -37,13 +31,13 @@ func NewFrame(bs []byte) (*Frame, error) {
 	}
 
 	if bs[0] != FramePreamble {
-		return nil, ErrInvalidFrame
+		return nil, ErrInvalidFormat
 	}
 
 	plen := int(bs[5])
 
 	if len(bs) != 6+plen+2 {
-		return nil, ErrInvalidFrame
+		return nil, ErrInvalidFormat
 	}
 
 	frameCrc := binary.LittleEndian.Uint16(bs[len(bs)-2 : len(bs)])
@@ -65,7 +59,7 @@ func NewFrame(bs []byte) (*Frame, error) {
 func (f *Frame) MarshalBinary() ([]byte, error) {
 	plen := len(f.Payload)
 	if plen > 255 {
-		return nil, ErrInvalidFrame
+		return nil, ErrInvalidFormat
 	}
 
 	bs := make([]byte, 6+len(f.Payload)+2)
@@ -86,7 +80,7 @@ func (f *Frame) MarshalBinary() ([]byte, error) {
 func (f *Frame) Msg() (Msg, error) {
 	fn, ok := typeToMsg[f.Type]
 	if !ok {
-		return nil, ErrUnsupportedMessage
+		return nil, ErrUnsupported
 	}
 
 	msg := fn()
@@ -100,11 +94,11 @@ func (f *Frame) Msg() (Msg, error) {
 // SetMsg sets the Message to payload.
 func (f *Frame) SetMsg(m Msg) error {
 	if m == nil {
-		return ErrUnsupportedMessage
+		return ErrUnsupported
 	}
 
 	if _, ok := typeToMsg[m.MsgType()]; !ok {
-		return ErrUnsupportedMessage
+		return ErrUnsupported
 	}
 
 	bs, err := m.MarshalBinary()

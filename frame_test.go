@@ -30,12 +30,12 @@ func Test_NewFrame(t *testing.T) {
 		{
 			inBs:   []byte{0x54, 0xa6, 0x00, 0x42, 0x00, 0x00, 0x2c, 0x94},
 			exp:    nil,
-			expErr: ErrInvalidFrame,
+			expErr: ErrInvalidFormat,
 		},
 		{
 			inBs:   []byte{0x55, 0xa6, 0x00, 0x42, 0x00, 0x01, 0x2c, 0x94},
 			exp:    nil,
-			expErr: ErrInvalidFrame,
+			expErr: ErrInvalidFormat,
 		},
 		{
 			inBs:   []byte{0x55, 0xa6, 0x00, 0x42, 0x00, 0x00, 0x2c, 0x95},
@@ -98,7 +98,7 @@ func Test_Frame_MarshalBinary(t *testing.T) {
 				Payload: make([]byte, 256),
 			},
 			exp:    nil,
-			expErr: ErrInvalidFrame,
+			expErr: ErrInvalidFormat,
 		},
 	}
 
@@ -154,7 +154,7 @@ func Test_Frame_Msg(t *testing.T) {
 				Payload: []byte{},
 			},
 			exp:    nil,
-			expErr: ErrUnsupportedMessage,
+			expErr: ErrUnsupported,
 		},
 	}
 

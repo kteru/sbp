@@ -18,7 +18,7 @@ func (m *MsgSettingsWrite) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 
 	if len(bss) != 4 || len(bss[3]) > 0 {
-		return ErrInvalidMsg
+		return ErrInvalidFormat
 	}
 
 	m.SectionSetting = string(bss[0])

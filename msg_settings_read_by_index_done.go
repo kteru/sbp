@@ -10,7 +10,7 @@ func (m *MsgSettingsReadByIndexDone) MsgType() uint16 {
 
 func (m *MsgSettingsReadByIndexDone) UnmarshalBinary(bs []byte) error {
 	if len(bs) != 0 {
-		return ErrInvalidMsg
+		return ErrInvalidFormat
 	}
 
 	return nil
