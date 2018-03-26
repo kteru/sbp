@@ -24,10 +24,12 @@ type MsgExtEvent struct {
 	Pin uint8
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgExtEvent) MsgType() uint16 {
 	return TypeMsgExtEvent
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgExtEvent) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 12 {
 		return io.ErrUnexpectedEOF
@@ -46,6 +48,7 @@ func (m *MsgExtEvent) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgExtEvent) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 12)
 

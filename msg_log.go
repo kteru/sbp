@@ -11,10 +11,12 @@ type MsgLog struct {
 	Text string
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgLog) MsgType() uint16 {
 	return TypeMsgLog
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgLog) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 1 {
 		return io.ErrUnexpectedEOF
@@ -28,6 +30,7 @@ func (m *MsgLog) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgLog) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 1, 1+len(m.Text))
 

@@ -19,10 +19,12 @@ type MsgMagRaw struct {
 	MagZ int16
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgMagRaw) MsgType() uint16 {
 	return TypeMsgMagRaw
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgMagRaw) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 11 {
 		return io.ErrUnexpectedEOF
@@ -38,6 +40,7 @@ func (m *MsgMagRaw) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgMagRaw) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 11)
 

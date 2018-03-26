@@ -32,10 +32,12 @@ type MsgPosLlh struct {
 	InertialNavigationMode uint8
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgPosLlh) MsgType() uint16 {
 	return TypeMsgPosLlh
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgPosLlh) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 34 {
 		return io.ErrUnexpectedEOF
@@ -59,6 +61,7 @@ func (m *MsgPosLlh) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgPosLlh) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 34)
 

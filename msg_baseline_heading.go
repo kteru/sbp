@@ -20,10 +20,12 @@ type MsgBaselineHeading struct {
 	FixMode uint8
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgBaselineHeading) MsgType() uint16 {
 	return TypeMsgBaselineHeading
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgBaselineHeading) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 10 {
 		return io.ErrUnexpectedEOF
@@ -40,6 +42,7 @@ func (m *MsgBaselineHeading) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgBaselineHeading) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 10)
 

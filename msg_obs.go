@@ -23,10 +23,12 @@ type MsgObs struct {
 	Observations []*MsgObsObservation
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgObs) MsgType() uint16 {
 	return TypeMsgObs
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgObs) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 11 {
 		return io.ErrUnexpectedEOF
@@ -58,6 +60,7 @@ func (m *MsgObs) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgObs) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 11, 11+17*len(m.Observations))
 
@@ -112,6 +115,7 @@ type MsgObsObservation struct {
 	SidCode uint8
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgObsObservation) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 17 {
 		return io.ErrUnexpectedEOF
@@ -138,6 +142,7 @@ func (m *MsgObsObservation) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgObsObservation) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 17)
 

@@ -14,10 +14,12 @@ type MsgHeartbeat struct {
 	ExternalAntennaPresent uint8
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgHeartbeat) MsgType() uint16 {
 	return TypeMsgHeartbeat
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgHeartbeat) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF
@@ -34,6 +36,7 @@ func (m *MsgHeartbeat) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgHeartbeat) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4)
 

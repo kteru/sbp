@@ -14,10 +14,12 @@ type MsgAgeCorrections struct {
 	Age uint16
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgAgeCorrections) MsgType() uint16 {
 	return TypeMsgAgeCorrections
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgAgeCorrections) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 6 {
 		return io.ErrUnexpectedEOF
@@ -29,6 +31,7 @@ func (m *MsgAgeCorrections) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgAgeCorrections) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 6)
 

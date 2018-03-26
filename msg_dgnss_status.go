@@ -20,10 +20,12 @@ type MsgDgnssStatus struct {
 	Source string
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgDgnssStatus) MsgType() uint16 {
 	return TypeMsgDgnssStatus
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgDgnssStatus) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF
@@ -40,6 +42,7 @@ func (m *MsgDgnssStatus) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgDgnssStatus) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4, 4+len(m.Source))
 

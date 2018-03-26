@@ -17,10 +17,12 @@ type MsgImuAux struct {
 	ImuConf uint8
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgImuAux) MsgType() uint16 {
 	return TypeMsgImuAux
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgImuAux) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF
@@ -33,6 +35,7 @@ func (m *MsgImuAux) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgImuAux) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4)
 

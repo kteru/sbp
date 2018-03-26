@@ -11,10 +11,12 @@ type MsgSettingsReadByIndexReq struct {
 	Index uint16
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgSettingsReadByIndexReq) MsgType() uint16 {
 	return TypeMsgSettingsReadByIndexReq
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgSettingsReadByIndexReq) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 2 {
 		return io.ErrUnexpectedEOF
@@ -25,6 +27,7 @@ func (m *MsgSettingsReadByIndexReq) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgSettingsReadByIndexReq) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 2)
 

@@ -17,10 +17,12 @@ type MsgStartup struct {
 	Reserved uint16
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgStartup) MsgType() uint16 {
 	return TypeMsgStartup
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgStartup) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 4 {
 		return io.ErrUnexpectedEOF
@@ -34,6 +36,7 @@ func (m *MsgStartup) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgStartup) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4)
 

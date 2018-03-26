@@ -16,10 +16,12 @@ type MsgBasePosLlh struct {
 	Height float64
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgBasePosLlh) MsgType() uint16 {
 	return TypeMsgBasePosLlh
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgBasePosLlh) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 24 {
 		return io.ErrUnexpectedEOF
@@ -32,6 +34,7 @@ func (m *MsgBasePosLlh) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgBasePosLlh) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 24)
 

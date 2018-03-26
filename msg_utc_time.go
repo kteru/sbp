@@ -19,10 +19,12 @@ type MsgUtcTime struct {
 	Time time.Time
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgUtcTime) MsgType() uint16 {
 	return TypeMsgUtcTime
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgUtcTime) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 16 {
 		return io.ErrUnexpectedEOF
@@ -48,6 +50,7 @@ func (m *MsgUtcTime) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgUtcTime) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 16)
 

@@ -9,10 +9,12 @@ type MsgSettingsReadReq struct {
 	Setting        string
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgSettingsReadReq) MsgType() uint16 {
 	return TypeMsgSettingsReadReq
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgSettingsReadReq) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 
@@ -26,6 +28,7 @@ func (m *MsgSettingsReadReq) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgSettingsReadReq) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 0, len(m.SectionSetting)+1+len(m.Setting)+1)
 

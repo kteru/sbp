@@ -78,10 +78,12 @@ type MsgEphemerisGps struct {
 	Iodc uint16
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgEphemerisGps) MsgType() uint16 {
 	return TypeMsgEphemerisGps
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgEphemerisGps) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 183 {
 		return io.ErrUnexpectedEOF
@@ -122,6 +124,7 @@ func (m *MsgEphemerisGps) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgEphemerisGps) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 183)
 

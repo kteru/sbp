@@ -16,10 +16,12 @@ type MsgSettingsWriteResp struct {
 	Value          string
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgSettingsWriteResp) MsgType() uint16 {
 	return TypeMsgSettingsWriteResp
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgSettingsWriteResp) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 1 {
 		return io.ErrUnexpectedEOF
@@ -40,6 +42,7 @@ func (m *MsgSettingsWriteResp) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgSettingsWriteResp) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 1, 1+len(m.SectionSetting)+1+len(m.Setting)+1+len(m.Value)+1)
 

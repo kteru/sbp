@@ -13,10 +13,12 @@ type MsgFwd struct {
 	FwdPayload []byte
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgFwd) MsgType() uint16 {
 	return TypeMsgFwd
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgFwd) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 2 {
 		return io.ErrUnexpectedEOF
@@ -30,6 +32,7 @@ func (m *MsgFwd) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgFwd) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 2, 2+len(m.FwdPayload))
 

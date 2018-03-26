@@ -37,10 +37,12 @@ type MsgVelNedCov struct {
 	InertialNavigationMode uint8
 }
 
+// MsgType returns the number representing the type.
 func (m *MsgVelNedCov) MsgType() uint16 {
 	return TypeMsgVelNedCov
 }
 
+// UnmarshalBinary parses a byte slice.
 func (m *MsgVelNedCov) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 42 {
 		return io.ErrUnexpectedEOF
@@ -68,6 +70,7 @@ func (m *MsgVelNedCov) UnmarshalBinary(bs []byte) error {
 	return nil
 }
 
+// MarshalBinary returns a byte slice in accordance with the format.
 func (m *MsgVelNedCov) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 42)
 
