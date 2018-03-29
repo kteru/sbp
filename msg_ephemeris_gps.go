@@ -16,9 +16,9 @@ type MsgEphemerisGps struct {
 	ToeTow uint32
 	// GPS week number (unit:week)
 	ToeWn uint16
-	// User Range Accuracy
+	// User Range Accuracy (unit:m)
 	Ura float64
-	// Curefit interval
+	// Curve fit interval (unit:s)
 	FitInterval uint32
 	// Status of ephemeris (1 = valid, 0 = invalid)
 	Valid uint8

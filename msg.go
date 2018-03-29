@@ -38,12 +38,18 @@ const (
 	TypeMsgAgeCorrections uint16 = 0x0210
 
 	// Observation
-	TypeMsgObs           uint16 = 0x004a
-	TypeMsgBasePosLlh    uint16 = 0x0044
-	TypeMsgBasePosEcef   uint16 = 0x0048
-	TypeMsgEphemerisGps  uint16 = 0x0086
-	TypeMsgEphemerisSbas uint16 = 0x0084
-	TypeMsgEphemerisGlo  uint16 = 0x0088
+	TypeMsgObs                uint16 = 0x004a
+	TypeMsgBasePosLlh         uint16 = 0x0044
+	TypeMsgBasePosEcef        uint16 = 0x0048
+	TypeMsgEphemerisGps       uint16 = 0x0086
+	TypeMsgEphemerisSbas      uint16 = 0x0084
+	TypeMsgEphemerisGlo       uint16 = 0x0088
+	TypeMsgIono               uint16 = 0x0090
+	TypeMsgSvConfigurationGps uint16 = 0x0091
+	TypeMsgGroupDelay         uint16 = 0x0094
+	TypeMsgAlmanacGps         uint16 = 0x0072
+	TypeMsgAlmanacGlo         uint16 = 0x0073
+	TypeMsgGloBiases          uint16 = 0x0075
 
 	// Settings
 	TypeMsgSettingsSave            uint16 = 0x00a1
@@ -98,6 +104,12 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgEphemerisGps:            func() Msg { return new(MsgEphemerisGps) },
 	TypeMsgEphemerisSbas:           func() Msg { return new(MsgEphemerisSbas) },
 	TypeMsgEphemerisGlo:            func() Msg { return new(MsgEphemerisGlo) },
+	TypeMsgIono:                    func() Msg { return new(MsgIono) },
+	TypeMsgSvConfigurationGps:      func() Msg { return new(MsgSvConfigurationGps) },
+	TypeMsgGroupDelay:              func() Msg { return new(MsgGroupDelay) },
+	TypeMsgAlmanacGps:              func() Msg { return new(MsgAlmanacGps) },
+	TypeMsgAlmanacGlo:              func() Msg { return new(MsgAlmanacGlo) },
+	TypeMsgGloBiases:               func() Msg { return new(MsgGloBiases) },
 	TypeMsgSettingsSave:            func() Msg { return new(MsgSettingsSave) },
 	TypeMsgSettingsWrite:           func() Msg { return new(MsgSettingsWrite) },
 	TypeMsgSettingsWriteResp:       func() Msg { return new(MsgSettingsWriteResp) },
