@@ -11,7 +11,13 @@ type MsgSettingsReadByIndexReq struct {
 	Index uint16
 }
 
-func (m *MsgSettingsReadByIndexReq) FromBytes(bs []byte) error {
+// MsgType returns the number representing the type.
+func (m *MsgSettingsReadByIndexReq) MsgType() uint16 {
+	return TypeMsgSettingsReadByIndexReq
+}
+
+// UnmarshalBinary parses a byte slice.
+func (m *MsgSettingsReadByIndexReq) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 2 {
 		return io.ErrUnexpectedEOF
 	}
@@ -21,7 +27,8 @@ func (m *MsgSettingsReadByIndexReq) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgSettingsReadByIndexReq) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (m *MsgSettingsReadByIndexReq) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 2)
 
 	binary.LittleEndian.PutUint16(bs[0:2], m.Index)

@@ -5,8 +5,8 @@ import (
 	"io"
 )
 
-// MsgGpsTime represents a contents of MSG_GPS_TIME.
-type MsgGpsTime struct {
+// MsgExtEvent represents a contents of MSG_EXT_EVENT.
+type MsgExtEvent struct {
 	// GPS week number (unit:weeks)
 	Wn uint16
 
@@ -17,17 +17,21 @@ type MsgGpsTime struct {
 	NsResidual uint32
 
 	// Status flags
-	TimeSource uint8
+	NewLevelOfPin uint8
+	TimeQuality   uint8
+
+	// Pin number (0..9)
+	Pin uint8
 }
 
 // MsgType returns the number representing the type.
-func (m *MsgGpsTime) MsgType() uint16 {
-	return TypeMsgGpsTime
+func (m *MsgExtEvent) MsgType() uint16 {
+	return TypeMsgExtEvent
 }
 
 // UnmarshalBinary parses a byte slice.
-func (m *MsgGpsTime) UnmarshalBinary(bs []byte) error {
-	if len(bs) < 11 {
+func (m *MsgExtEvent) UnmarshalBinary(bs []byte) error {
+	if len(bs) < 12 {
 		return io.ErrUnexpectedEOF
 	}
 
@@ -36,21 +40,26 @@ func (m *MsgGpsTime) UnmarshalBinary(bs []byte) error {
 	m.NsResidual = binary.LittleEndian.Uint32(bs[6:10])
 
 	flags := bs[10]
-	m.TimeSource = flags & 0x7
+	m.NewLevelOfPin = flags & 0x1
+	m.TimeQuality = flags >> 1 & 0x1
+
+	m.Pin = bs[11]
 
 	return nil
 }
 
 // MarshalBinary returns a byte slice in accordance with the format.
-func (m *MsgGpsTime) MarshalBinary() ([]byte, error) {
-	bs := make([]byte, 11)
+func (m *MsgExtEvent) MarshalBinary() ([]byte, error) {
+	bs := make([]byte, 12)
 
 	binary.LittleEndian.PutUint16(bs[0:2], m.Wn)
 	binary.LittleEndian.PutUint32(bs[2:6], m.Tow)
 	binary.LittleEndian.PutUint32(bs[6:10], m.NsResidual)
 
-	flags := m.TimeSource & 0x7
+	flags := (m.NewLevelOfPin & 0x1) | (m.TimeQuality & 0x1 << 1)
 	bs[10] = flags
+
+	bs[11] = m.Pin
 
 	return bs, nil
 }

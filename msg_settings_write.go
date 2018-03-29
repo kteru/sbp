@@ -10,11 +10,17 @@ type MsgSettingsWrite struct {
 	Value          string
 }
 
-func (m *MsgSettingsWrite) FromBytes(bs []byte) error {
+// MsgType returns the number representing the type.
+func (m *MsgSettingsWrite) MsgType() uint16 {
+	return TypeMsgSettingsWrite
+}
+
+// UnmarshalBinary parses a byte slice.
+func (m *MsgSettingsWrite) UnmarshalBinary(bs []byte) error {
 	bss := bytes.Split(bs, []byte{0x00})
 
 	if len(bss) != 4 || len(bss[3]) > 0 {
-		return ErrInvalidMsg
+		return ErrInvalidFormat
 	}
 
 	m.SectionSetting = string(bss[0])
@@ -24,7 +30,8 @@ func (m *MsgSettingsWrite) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgSettingsWrite) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (m *MsgSettingsWrite) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 0, len(m.SectionSetting)+1+len(m.Setting)+1+len(m.Value)+1)
 
 	bs = append(bs, []byte(m.SectionSetting)...)

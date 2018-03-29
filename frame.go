@@ -13,14 +13,8 @@ const FramePreamble = 0x55
 const SenderDeviceController = 0x42
 
 var (
-	// ErrInvalidFrame is returned when detect a malformed format.
-	ErrInvalidFrame = errors.New("invalid frame")
-
 	// ErrInvalidCRC is returned when detect an incorrect CRC.
 	ErrInvalidCRC = errors.New("invalid frame crc")
-
-	// ErrUnsupportedMessage is returned if message type is unsupported.
-	ErrUnsupportedMessage = errors.New("unsupported message type")
 )
 
 // Frame describes a Frame.
@@ -37,13 +31,13 @@ func NewFrame(bs []byte) (*Frame, error) {
 	}
 
 	if bs[0] != FramePreamble {
-		return nil, ErrInvalidFrame
+		return nil, ErrInvalidFormat
 	}
 
 	plen := int(bs[5])
 
 	if len(bs) != 6+plen+2 {
-		return nil, ErrInvalidFrame
+		return nil, ErrInvalidFormat
 	}
 
 	frameCrc := binary.LittleEndian.Uint16(bs[len(bs)-2 : len(bs)])
@@ -61,11 +55,11 @@ func NewFrame(bs []byte) (*Frame, error) {
 	return f, nil
 }
 
-// Bytes returns a byte slice in accordance with the format.
-func (f *Frame) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (f *Frame) MarshalBinary() ([]byte, error) {
 	plen := len(f.Payload)
 	if plen > 255 {
-		return nil, ErrInvalidFrame
+		return nil, ErrInvalidFormat
 	}
 
 	bs := make([]byte, 6+len(f.Payload)+2)
@@ -84,15 +78,36 @@ func (f *Frame) Bytes() ([]byte, error) {
 
 // Msg parse the Message payload and return it.
 func (f *Frame) Msg() (Msg, error) {
-	newFunc, ok := TypeToMsg[f.Type]
+	fn, ok := typeToMsg[f.Type]
 	if !ok {
-		return nil, ErrUnsupportedMessage
+		return nil, ErrUnsupported
 	}
 
-	msg := newFunc()
-	if err := msg.FromBytes(f.Payload); err != nil {
+	msg := fn()
+	if err := msg.UnmarshalBinary(f.Payload); err != nil {
 		return nil, err
 	}
 
 	return msg, nil
+}
+
+// SetMsg sets the Message to payload.
+func (f *Frame) SetMsg(m Msg) error {
+	if m == nil {
+		return ErrUnsupported
+	}
+
+	if _, ok := typeToMsg[m.MsgType()]; !ok {
+		return ErrUnsupported
+	}
+
+	bs, err := m.MarshalBinary()
+	if err != nil {
+		return err
+	}
+
+	f.Type = m.MsgType()
+	f.Payload = bs
+
+	return nil
 }

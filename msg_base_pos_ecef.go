@@ -14,7 +14,13 @@ type MsgBasePosEcef struct {
 	Z float64
 }
 
-func (m *MsgBasePosEcef) FromBytes(bs []byte) error {
+// MsgType returns the number representing the type.
+func (m *MsgBasePosEcef) MsgType() uint16 {
+	return TypeMsgBasePosEcef
+}
+
+// UnmarshalBinary parses a byte slice.
+func (m *MsgBasePosEcef) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 24 {
 		return io.ErrUnexpectedEOF
 	}
@@ -26,7 +32,8 @@ func (m *MsgBasePosEcef) FromBytes(bs []byte) error {
 	return nil
 }
 
-func (m *MsgBasePosEcef) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (m *MsgBasePosEcef) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 24)
 
 	binary.LittleEndian.PutUint64(bs[0:8], math.Float64bits(m.X))

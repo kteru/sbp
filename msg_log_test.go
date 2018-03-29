@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func Test_MsgLog_FromBytes(t *testing.T) {
+func Test_MsgLog_UnmarshalBinary(t *testing.T) {
 	tests := []struct {
 		in     []byte
 		exp    *MsgLog
@@ -38,7 +38,7 @@ func Test_MsgLog_FromBytes(t *testing.T) {
 
 	for _, test := range tests {
 		act := new(MsgLog)
-		actErr := act.FromBytes(test.in)
+		actErr := act.UnmarshalBinary(test.in)
 		exp := test.exp
 		expErr := test.expErr
 
@@ -54,17 +54,17 @@ func Test_MsgLog_FromBytes(t *testing.T) {
 	}
 }
 
-func Benchmark_MsgLog_FromBytes(b *testing.B) {
+func Benchmark_MsgLog_UnmarshalBinary(b *testing.B) {
 	m := new(MsgLog)
 	bs := []byte{0x07, 0x61, 0x62, 0x63, 0x64, 0x65}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_ = m.FromBytes(bs)
+		_ = m.UnmarshalBinary(bs)
 	}
 }
 
-func Test_MsgLog_Bytes(t *testing.T) {
+func Test_MsgLog_MarshalBinary(t *testing.T) {
 	tests := []struct {
 		in     *MsgLog
 		exp    []byte
@@ -89,7 +89,7 @@ func Test_MsgLog_Bytes(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		act, actErr := test.in.Bytes()
+		act, actErr := test.in.MarshalBinary()
 		exp := test.exp
 		expErr := test.expErr
 
@@ -105,7 +105,7 @@ func Test_MsgLog_Bytes(t *testing.T) {
 	}
 }
 
-func Benchmark_MsgLog_Bytes(b *testing.B) {
+func Benchmark_MsgLog_MarshalBinary(b *testing.B) {
 	m := &MsgLog{
 		Level: 7,
 		Text:  "abcde",
@@ -113,6 +113,6 @@ func Benchmark_MsgLog_Bytes(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = m.Bytes()
+		_, _ = m.MarshalBinary()
 	}
 }

@@ -19,13 +19,20 @@ type MsgVelEcef struct {
 	Accuracy uint16
 
 	// Number of satellites used in solution
-	NumSats uint8
+	NSats uint8
 
 	// Status flags
-	Flags uint8
+	VelocityMode           uint8
+	InertialNavigationMode uint8
 }
 
-func (m *MsgVelEcef) FromBytes(bs []byte) error {
+// MsgType returns the number representing the type.
+func (m *MsgVelEcef) MsgType() uint16 {
+	return TypeMsgVelEcef
+}
+
+// UnmarshalBinary parses a byte slice.
+func (m *MsgVelEcef) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 20 {
 		return io.ErrUnexpectedEOF
 	}
@@ -38,13 +45,17 @@ func (m *MsgVelEcef) FromBytes(bs []byte) error {
 
 	m.Accuracy = binary.LittleEndian.Uint16(bs[16:18])
 
-	m.NumSats = bs[18]
-	m.Flags = bs[19]
+	m.NSats = bs[18]
+
+	flags := bs[19]
+	m.VelocityMode = flags & 0x7
+	m.InertialNavigationMode = flags >> 3 & 0x3
 
 	return nil
 }
 
-func (m *MsgVelEcef) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (m *MsgVelEcef) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 20)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)
@@ -55,8 +66,10 @@ func (m *MsgVelEcef) Bytes() ([]byte, error) {
 
 	binary.LittleEndian.PutUint16(bs[16:18], m.Accuracy)
 
-	bs[18] = m.NumSats
-	bs[19] = m.Flags
+	bs[18] = m.NSats
+
+	flags := (m.VelocityMode & 0x7) | (m.InertialNavigationMode & 0x3 << 3)
+	bs[19] = flags
 
 	return bs, nil
 }

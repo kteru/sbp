@@ -30,12 +30,12 @@ func Test_NewFrame(t *testing.T) {
 		{
 			inBs:   []byte{0x54, 0xa6, 0x00, 0x42, 0x00, 0x00, 0x2c, 0x94},
 			exp:    nil,
-			expErr: ErrInvalidFrame,
+			expErr: ErrInvalidFormat,
 		},
 		{
 			inBs:   []byte{0x55, 0xa6, 0x00, 0x42, 0x00, 0x01, 0x2c, 0x94},
 			exp:    nil,
-			expErr: ErrInvalidFrame,
+			expErr: ErrInvalidFormat,
 		},
 		{
 			inBs:   []byte{0x55, 0xa6, 0x00, 0x42, 0x00, 0x00, 0x2c, 0x95},
@@ -76,7 +76,7 @@ func Benchmark_NewFrame(b *testing.B) {
 	}
 }
 
-func Test_Frame_Bytes(t *testing.T) {
+func Test_Frame_MarshalBinary(t *testing.T) {
 	tests := []struct {
 		in     *Frame
 		exp    []byte
@@ -98,12 +98,12 @@ func Test_Frame_Bytes(t *testing.T) {
 				Payload: make([]byte, 256),
 			},
 			exp:    nil,
-			expErr: ErrInvalidFrame,
+			expErr: ErrInvalidFormat,
 		},
 	}
 
 	for _, test := range tests {
-		act, actErr := test.in.Bytes()
+		act, actErr := test.in.MarshalBinary()
 		exp := test.exp
 		expErr := test.expErr
 
@@ -119,7 +119,7 @@ func Test_Frame_Bytes(t *testing.T) {
 	}
 }
 
-func Benchmark_Frame_Bytes(b *testing.B) {
+func Benchmark_Frame_MarshalBinary(b *testing.B) {
 	v := &Frame{
 		Type:    TypeMsgSettingsReadByIndexDone,
 		Sender:  SenderDeviceController,
@@ -128,7 +128,7 @@ func Benchmark_Frame_Bytes(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = v.Bytes()
+		_, _ = v.MarshalBinary()
 	}
 }
 
@@ -154,7 +154,7 @@ func Test_Frame_Msg(t *testing.T) {
 				Payload: []byte{},
 			},
 			exp:    nil,
-			expErr: ErrUnsupportedMessage,
+			expErr: ErrUnsupported,
 		},
 	}
 
@@ -188,5 +188,52 @@ func Benchmark_Frame_Msg(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, _ = v.Msg()
+	}
+}
+
+func Test_Frame_SetMsg(t *testing.T) {
+	tests := []struct {
+		in     Msg
+		exp    *Frame
+		expErr error
+	}{
+		{
+			in: new(MsgSettingsReadByIndexDone),
+			exp: &Frame{
+				Type:    TypeMsgSettingsReadByIndexDone,
+				Payload: []byte{},
+			},
+			expErr: nil,
+		},
+	}
+
+	for _, test := range tests {
+		act := &Frame{}
+		actErr := act.SetMsg(test.in)
+		exp := test.exp
+		expErr := test.expErr
+
+		if actErr != expErr {
+			t.Errorf("\n  actual: %#v\nexpected: %#v\n", actErr, expErr)
+		}
+
+		if actErr == nil && expErr == nil {
+			acType := reflect.ValueOf(act).Type().String()
+			exType := reflect.ValueOf(exp).Type().String()
+
+			if acType != exType {
+				t.Errorf("\n  actual: %#v\nexpected: %#v\n", acType, exType)
+			}
+		}
+	}
+}
+
+func Benchmark_Frame_SetMsg(b *testing.B) {
+	f := &Frame{}
+	m := new(MsgSettingsReadByIndexDone)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = f.SetMsg(m)
 	}
 }

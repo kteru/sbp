@@ -4,14 +4,21 @@ package sbp
 type MsgSettingsReadByIndexDone struct {
 }
 
-func (m *MsgSettingsReadByIndexDone) FromBytes(bs []byte) error {
+// MsgType returns the number representing the type.
+func (m *MsgSettingsReadByIndexDone) MsgType() uint16 {
+	return TypeMsgSettingsReadByIndexDone
+}
+
+// UnmarshalBinary parses a byte slice.
+func (m *MsgSettingsReadByIndexDone) UnmarshalBinary(bs []byte) error {
 	if len(bs) != 0 {
-		return ErrInvalidMsg
+		return ErrInvalidFormat
 	}
 
 	return nil
 }
 
-func (m *MsgSettingsReadByIndexDone) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (m *MsgSettingsReadByIndexDone) MarshalBinary() ([]byte, error) {
 	return nil, nil
 }

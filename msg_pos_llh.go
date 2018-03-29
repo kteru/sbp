@@ -25,16 +25,20 @@ type MsgPosLlh struct {
 	VAccuracy uint16
 
 	// Number of satellites used in solution
-	NumSats uint8
+	NSats uint8
 
 	// Status flags
-	FixMode          uint8
-	HeightMode       uint8
-	RaimAvailability uint8
-	RaimRepair       uint8
+	FixMode                uint8
+	InertialNavigationMode uint8
 }
 
-func (m *MsgPosLlh) FromBytes(bs []byte) error {
+// MsgType returns the number representing the type.
+func (m *MsgPosLlh) MsgType() uint16 {
+	return TypeMsgPosLlh
+}
+
+// UnmarshalBinary parses a byte slice.
+func (m *MsgPosLlh) UnmarshalBinary(bs []byte) error {
 	if len(bs) < 34 {
 		return io.ErrUnexpectedEOF
 	}
@@ -48,18 +52,17 @@ func (m *MsgPosLlh) FromBytes(bs []byte) error {
 	m.HAccuracy = binary.LittleEndian.Uint16(bs[28:30])
 	m.VAccuracy = binary.LittleEndian.Uint16(bs[30:32])
 
-	m.NumSats = bs[32]
+	m.NSats = bs[32]
 
 	flags := bs[33]
 	m.FixMode = flags & 0x7
-	m.HeightMode = flags >> 3 & 0x1
-	m.RaimAvailability = flags >> 4 & 0x1
-	m.RaimRepair = flags >> 5 & 0x1
+	m.InertialNavigationMode = flags >> 3 & 0x3
 
 	return nil
 }
 
-func (m *MsgPosLlh) Bytes() ([]byte, error) {
+// MarshalBinary returns a byte slice in accordance with the format.
+func (m *MsgPosLlh) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 34)
 
 	binary.LittleEndian.PutUint32(bs[0:4], m.Tow)
@@ -71,9 +74,9 @@ func (m *MsgPosLlh) Bytes() ([]byte, error) {
 	binary.LittleEndian.PutUint16(bs[28:30], m.HAccuracy)
 	binary.LittleEndian.PutUint16(bs[30:32], m.VAccuracy)
 
-	bs[32] = m.NumSats
+	bs[32] = m.NSats
 
-	flags := (m.FixMode & 0x7) | (m.HeightMode & 0x1 << 3) | (m.RaimAvailability & 0x1 << 4) | (m.RaimRepair & 0x1 << 5)
+	flags := (m.FixMode & 0x7) | (m.InertialNavigationMode & 0x3 << 3)
 	bs[33] = flags
 
 	return bs, nil

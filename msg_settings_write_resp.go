@@ -1,9 +1,15 @@
 package sbp
 
-import "bytes"
+import (
+	"bytes"
+	"io"
+)
 
-// MsgSettingsReadResp represents a contents of MSG_SETTINGS_READ_RESP.
-type MsgSettingsReadResp struct {
+// MsgSettingsWriteResp represents a contents of MSG_SETTINGS_WRITE_RESP.
+type MsgSettingsWriteResp struct {
+	// Write status
+	Status uint8
+
 	// String with contents
 	SectionSetting string
 	Setting        string
@@ -11,13 +17,19 @@ type MsgSettingsReadResp struct {
 }
 
 // MsgType returns the number representing the type.
-func (m *MsgSettingsReadResp) MsgType() uint16 {
-	return TypeMsgSettingsReadResp
+func (m *MsgSettingsWriteResp) MsgType() uint16 {
+	return TypeMsgSettingsWriteResp
 }
 
 // UnmarshalBinary parses a byte slice.
-func (m *MsgSettingsReadResp) UnmarshalBinary(bs []byte) error {
-	bss := bytes.Split(bs, []byte{0x00})
+func (m *MsgSettingsWriteResp) UnmarshalBinary(bs []byte) error {
+	if len(bs) < 1 {
+		return io.ErrUnexpectedEOF
+	}
+
+	m.Status = bs[0]
+
+	bss := bytes.Split(bs[1:], []byte{0x00})
 
 	if len(bss) != 4 || len(bss[3]) > 0 {
 		return ErrInvalidFormat
@@ -31,8 +43,10 @@ func (m *MsgSettingsReadResp) UnmarshalBinary(bs []byte) error {
 }
 
 // MarshalBinary returns a byte slice in accordance with the format.
-func (m *MsgSettingsReadResp) MarshalBinary() ([]byte, error) {
-	bs := make([]byte, 0, len(m.SectionSetting)+1+len(m.Setting)+1+len(m.Value)+1)
+func (m *MsgSettingsWriteResp) MarshalBinary() ([]byte, error) {
+	bs := make([]byte, 1, 1+len(m.SectionSetting)+1+len(m.Setting)+1+len(m.Value)+1)
+
+	bs[0] = m.Status
 
 	bs = append(bs, []byte(m.SectionSetting)...)
 	bs = append(bs, 0x00)
