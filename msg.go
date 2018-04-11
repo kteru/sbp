@@ -73,6 +73,9 @@ const (
 
 	// Orientation
 	TypeMsgBaselineHeading uint16 = 0x020f
+
+	// Piksi
+	TypeMsgReset uint16 = 0x00b6
 )
 
 // typeToMsg is a map of constructors for Messages.
@@ -123,6 +126,7 @@ var typeToMsg = map[uint16]func() Msg{
 	TypeMsgHeartbeat:               func() Msg { return new(MsgHeartbeat) },
 	TypeMsgInsStatus:               func() Msg { return new(MsgInsStatus) },
 	TypeMsgBaselineHeading:         func() Msg { return new(MsgBaselineHeading) },
+	TypeMsgReset:                   func() Msg { return new(MsgReset) },
 }
 
 // Msg represents a Message contents.
