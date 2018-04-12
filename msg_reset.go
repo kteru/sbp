@@ -5,7 +5,7 @@ import "io"
 // MsgReset represents a contents of MSG_RESET.
 type MsgReset struct {
 	// Status flags
-	ResoreDefaultSettings bool
+	RestoreDefaultSettings bool
 }
 
 // MsgType returns the number representing the type.
@@ -20,7 +20,7 @@ func (m *MsgReset) UnmarshalBinary(bs []byte) error {
 	}
 
 	if bs[0]&0x1 > 0 {
-		m.ResoreDefaultSettings = true
+		m.RestoreDefaultSettings = true
 	}
 
 	return nil
@@ -30,7 +30,7 @@ func (m *MsgReset) UnmarshalBinary(bs []byte) error {
 func (m *MsgReset) MarshalBinary() ([]byte, error) {
 	bs := make([]byte, 4)
 
-	if m.ResoreDefaultSettings {
+	if m.RestoreDefaultSettings {
 		bs[0] |= 0x1
 	}
 
